@@ -518,6 +518,10 @@
                 
                 // Show admin button
                 adminButton.style.display = 'block';
+                document.querySelector('#admin-button button').addEventListener('click', function() {
+                    // Redirigir a la página de administración
+                    window.location.href = 'admin.html';
+                });
             }
             
             // Set current user
@@ -535,6 +539,7 @@
             // Show dashboard
             loginView.style.display = 'none';
             dashboard.style.display = 'block';
+            
         });
         
         // Logout functionality
@@ -573,6 +578,10 @@
                 
                 // Update the UI
                 updateParticipantsList();
+
+                // Save to localStorage
+                saveQuestionToLocalStorage(currentUser, receiver, question);
+                saveDataToLocalStorage();
                 
                 // Clear form
                 questionReceiver.value = '';
@@ -613,6 +622,36 @@
                 `;
                 participantList.appendChild(li);
             });
+        }
+
+        function saveDataToLocalStorage() {
+            // Guardar participantes
+            localStorage.setItem('valorVerdadParticipants', JSON.stringify(participants));
+            
+            // Guardar información del usuario
+            if (currentUser) {
+                localStorage.setItem('valorVerdadUser', JSON.stringify({
+                    username: currentUser,
+                    isAdmin: currentUser === 'Fiorella'
+                }));
+            }
+        }
+
+        function saveQuestionToLocalStorage(from, to, questionText) {
+            // Obtener preguntas existentes
+            let questions = localStorage.getItem('valorVerdadQuestions');
+            questions = questions ? JSON.parse(questions) : [];
+            
+            // Agregar nueva pregunta
+            questions.push({
+                from: from,
+                to: to,
+                text: questionText,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Guardar en localStorage
+            localStorage.setItem('valorVerdadQuestions', JSON.stringify(questions));
         }
     </script>
 </body>
