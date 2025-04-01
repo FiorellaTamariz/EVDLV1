@@ -431,22 +431,6 @@
     </div>
     
     <script>
-        // Check if the user is logged in and is Fiorella
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get user data from localStorage
-            const userData = JSON.parse(localStorage.getItem('valorVerdadUser'));
-            
-            if (!userData || userData.username !== 'Fiorella') {
-                // Redirect to index page if not Fiorella
-                alert('Acceso no autorizado');
-                window.location.href = 'index.html';
-                return;
-            }
-            
-            // Load questions data from localStorage
-            loadQuestionsData();
-        });
-        
         // Global variables
         let allQuestions = [];
         let selectedParticipant = null;
@@ -463,6 +447,12 @@
         const modalQuestion = document.getElementById('modal-question');
         const modalCancel = document.getElementById('modal-cancel');
         const modalSave = document.getElementById('modal-save');
+        
+        // Load questions data as soon as the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load questions data from localStorage
+            loadQuestionsData();
+        });
         
         // Load questions data
         function loadQuestionsData() {
